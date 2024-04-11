@@ -5,11 +5,15 @@
     <div class="px-6 py-4">
       <img :src="pokemonDetails.image" alt="Pokemon" class="mx-auto" />
       <div class="font-bold text-xl mb-2">{{ pokemonDetails.name }}</div>
-      <p>Type: {{ pokemonDetails.typeName }}</p>
+
+      <p class="rounded-full bg-gray-200 text-sm font-semibold text-gray-700">
+        Type: {{ pokemonDetails.typeName }}
+      </p>
+
       <p>Game Index: {{ pokemonDetails.gameIndex }}</p>
     </div>
     <div class="px-6 pt-4 pb-2">
-      <!-- Additional actions related to the Pokémon can be added here -->
+      <!-- Additional actions -->
     </div>
   </div>
 </template>

@@ -5,24 +5,31 @@ export const usePokemonStore = defineStore("pokemon", {
   state: () => ({
     pokemonList: [],
     pokemonDetails: {},
-    currentPage: 1,
+    isLoading: false,
+    totalCount: null,
     pageSize: 24,
   }),
   actions: {
     async fetchPokemon() {
+      if (this.isLoading || this.pokemonList.length >= 300) {
+        return;
+      }
+
+      this.isLoading = true;
       try {
         const response = await fetch(
-          "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+          `https://pokeapi.co/api/v2/pokemon?limit=300&offset=${this.pokemonList.length}`
         );
         const data = await response.json();
-        this.pokemonList = data.results;
+        this.totalCount = data.count;
+        this.pokemonList = [...this.pokemonList, ...data.results];
       } catch (error) {
         console.error("Failed to fetch Pokémon", error);
+      } finally {
+        this.isLoading = false;
       }
     },
-    setPage(page) {
-      this.currentPage = page;
-    },
+
     async fetchPokemonDetails(url) {
       try {
         const response = await fetch(url);
@@ -38,12 +45,7 @@ export const usePokemonStore = defineStore("pokemon", {
       }
     },
   },
-
   getters: {
-    paginatedPokemon: (state) => {
-      const start = (state.currentPage - 1) * state.pageSize;
-      const end = start + state.pageSize;
-      return state.pokemonList.slice(start, end);
-    },
+    paginatedPokemon: (state) => state.pokemonList,
   },
 });
