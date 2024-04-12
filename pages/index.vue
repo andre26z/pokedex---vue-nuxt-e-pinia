@@ -39,7 +39,7 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { usePokemonStore } from "~/stores/usePokemonStore";
-import Header from "./components/Header.vue";
+import Header from "@/components/Header.vue";
 
 const pokemonStore = usePokemonStore();
 const searchQuery = ref("");
