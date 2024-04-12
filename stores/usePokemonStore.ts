@@ -26,12 +26,15 @@ export const usePokemonStore = defineStore("pokemon", {
             name: detailsData.name,
             url: pokemon.url,
             image: detailsData.sprites.front_default,
-            typeName: detailsData.types.map(t => t.type.name), // Store as array of names
+            typeName: detailsData.types.map((t) => t.type.name), // Store as array of names
             gameIndex: detailsData.game_indices[0]?.game_index,
           };
         });
 
-        this.pokemonList = [...this.pokemonList, ...(await Promise.all(detailedPokemonList))];
+        this.pokemonList = [
+          ...this.pokemonList,
+          ...(await Promise.all(detailedPokemonList)),
+        ];
       } catch (error) {
         console.error("Failed to fetch Pokémon", error);
       } finally {
@@ -40,17 +43,20 @@ export const usePokemonStore = defineStore("pokemon", {
     },
 
     async fetchPokemonDetails(url) {
-      try {
-        const response = await fetch(url);
-        const details = await response.json();
-        this.pokemonDetails[url] = {
-          name: details.name,
-          image: details.sprites.front_default,
-          typeName: details.types.map((t) => t.type.name), // Store as array of names
-          gameIndex: details.game_indices[0]?.game_index,
-        };
-      } catch (error) {
-        console.error("Failed to fetch Pokémon details", error);
+      if (!this.pokemonDetails[url]) {
+        // Fetch details only if not already loaded
+        try {
+          const response = await fetch(url);
+          const details = await response.json();
+          this.pokemonDetails[url] = {
+            name: details.name,
+            image: details.sprites.front_default,
+            typeName: details.types.map((t) => t.type.name),
+            gameIndex: details.game_indices[0]?.game_index,
+          };
+        } catch (error) {
+          console.error("Failed to fetch Pokémon details", error);
+        }
       }
     },
   },
