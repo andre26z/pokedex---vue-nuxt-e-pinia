@@ -3,7 +3,7 @@
     class="max-w-sm rounded overflow-hidden shadow-lg bg-white hover:bg-gray-100 transition-colors"
   >
     <div class="px-6 py-4">
-      <img :src="pokemonDetails.image" alt="Pokemon" class="mx-auto" />
+      <img :src="pokemonDetails.image" alt="Pokemon" class="mx-auto" loading="lazy" />
       <div class="font-bold text-xl mb-2">{{ pokemonDetails.name }}</div>
 
       <p class="rounded-full bg-gray-200 text-sm font-semibold text-gray-700">

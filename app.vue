@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from "vue";
+import { onMounted } from "vue";
 import { usePokemonStore } from "~/stores/usePokemonStore";
 
 const pokemonStore = usePokemonStore();
