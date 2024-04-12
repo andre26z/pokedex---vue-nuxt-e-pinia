@@ -4,9 +4,9 @@
   >
     <div class="px-6 py-4">
       <img :src="pokemonDetails.image" alt="Pokemon" class="mx-auto" loading="lazy" />
-      <div class="font-bold text-xl mb-2">{{ pokemonDetails.name }}</div>
+      <div class="font-bold text-xl mb-2 capitalize">{{ pokemonDetails.name }}</div>
 
-      <p class="rounded-full bg-gray-200 text-sm font-semibold text-gray-700">
+      <p class="rounded-full bg-gray-200 text-sm font-semibold text-gray-700 capitalize">
         Type: {{ pokemonDetails.typeName }}
       </p>
 
@@ -45,7 +45,7 @@ onMounted(async () => {
   pokemonDetails.value = pokemonStore.pokemonDetails[props.pokemon.url] || {};
 });
 
-// Reactively update details if the URL changes
+
 watch(
   () => props.pokemon.url,
   async (newUrl) => {
@@ -59,5 +59,5 @@ watch(
 </script>
 
 <style scoped>
-/* You can add additional scoped styles here */
+
 </style>

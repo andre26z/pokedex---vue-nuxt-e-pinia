@@ -1,4 +1,3 @@
-// import the necessary functions from Pinia and Vue
 import { defineStore } from "pinia";
 
 export const usePokemonStore = defineStore("pokemon", {
@@ -22,7 +21,19 @@ export const usePokemonStore = defineStore("pokemon", {
         );
         const data = await response.json();
         this.totalCount = data.count;
-        this.pokemonList = [...this.pokemonList, ...data.results];
+        const detailedPokemonList = data.results.map(async (pokemon) => {
+          const detailsResponse = await fetch(pokemon.url);
+          const detailsData = await detailsResponse.json();
+          return {
+            name: detailsData.name,
+            url: pokemon.url,
+            image: detailsData.sprites.front_default,
+            typeName: detailsData.types.map(t => t.type.name).join(", "),
+            gameIndex: detailsData.game_indices[0]?.game_index,
+          };
+        });
+
+        this.pokemonList = [...this.pokemonList, ...(await Promise.all(detailedPokemonList))];
       } catch (error) {
         console.error("Failed to fetch Pokémon", error);
       } finally {
