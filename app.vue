@@ -25,26 +25,9 @@ import { usePokemonStore } from "~/stores/usePokemonStore";
 
 const pokemonStore = usePokemonStore();
 
-const checkScroll = () => {
-  const nearBottom =
-    window.innerHeight + window.scrollY >= document.body.offsetHeight - 500;
-  if (
-    nearBottom &&
-    !pokemonStore.isLoading &&
-    pokemonStore.pokemonList.length < pokemonStore.totalCount
-  ) {
-    pokemonStore.fetchPokemon();
-  }
-};
-
 onMounted(() => {
-  window.addEventListener("scroll", checkScroll);
   if (pokemonStore.pokemonList.length === 0) {
     pokemonStore.fetchPokemon();
   }
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", checkScroll);
 });
 </script>
