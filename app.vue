@@ -1,20 +1,20 @@
 <template>
-  <div class="flex justify-center items-center">
+  <Header />
+  <div class="py-10 flex justify-center items-center">
     <div class="container max-w-screen-xl mx-auto p-4">
-      <div class="relative">
+      <div class="relative ma-0 pa-0">
         <input
           type="text"
           v-model="searchQuery"
-          placeholder="Procurar Pokémon por Nome ou Código"
-          class="mb-4 p-2 w-full border rounded-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Pesquise por nome ou código"
+          class="mb-10 px-2 py-6 w-full border rounded-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+
         <button
           v-if="searchQuery"
           @click="searchQuery = ''"
           class="absolute right-3 top-1/3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-        >
-          &#x2715;
-        </button>
+        ></button>
       </div>
 
       <div class="space-y-4">
@@ -39,6 +39,7 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { usePokemonStore } from "~/stores/usePokemonStore";
+import Header from "./components/Header.vue";
 
 const pokemonStore = usePokemonStore();
 const searchQuery = ref("");
