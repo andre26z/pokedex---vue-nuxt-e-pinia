@@ -1,5 +1,3 @@
-import { defineStore } from "pinia";
-
 export const usePokemonStore = defineStore("pokemon", {
   state: () => ({
     pokemonList: [],
@@ -28,7 +26,7 @@ export const usePokemonStore = defineStore("pokemon", {
             name: detailsData.name,
             url: pokemon.url,
             image: detailsData.sprites.front_default,
-            typeName: detailsData.types.map(t => t.type.name).join(", "),
+            typeName: detailsData.types.map(t => t.type.name), // Store as array of names
             gameIndex: detailsData.game_indices[0]?.game_index,
           };
         });
@@ -48,15 +46,12 @@ export const usePokemonStore = defineStore("pokemon", {
         this.pokemonDetails[url] = {
           name: details.name,
           image: details.sprites.front_default,
-          typeName: details.types.map((t) => t.type.name).join(", "),
+          typeName: details.types.map((t) => t.type.name), // Store as array of names
           gameIndex: details.game_indices[0]?.game_index,
         };
       } catch (error) {
         console.error("Failed to fetch Pokémon details", error);
       }
     },
-  },
-  getters: {
-    paginatedPokemon: (state) => state.pokemonList,
   },
 });
