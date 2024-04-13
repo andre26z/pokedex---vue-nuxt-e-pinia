@@ -44,7 +44,7 @@
         </ul>
       </div>
     </div>
-    
+
     <div class="text-center mt-14">
       <button
         @click="goBack"
@@ -59,59 +59,61 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import Header from "@/components/Header.vue";
 
-export default {
-  data() {
-    return {
-      pokemon: null,
-    };
-  },
-  created() {
-    this.fetchPokemon();
-  },
-  methods: {
-    async fetchPokemon() {
-      try {
-        const res = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${this.$route.params.name}`
-        );
-        this.pokemon = await res.json();
-      } catch (error) {
-        console.error("Error fetching Pokémon data:", error);
-        this.pokemon = null;
-      }
-    },
-    goBack() {
-      this.$router.push("/");
-    },
-  },
-  computed: {
-    typeColors() {
-      return {
-        water: "bg-blue-500",
-        grass: "bg-green-500",
-        normal: "bg-orange-950",
-        bug: "bg-lime-300",
-        dark: "bg-gray-800",
-        dragon: "bg-emerald-800",
-        electric: "bg-yellow-400",
-        fairy: "bg-pink-500",
-        fire: "bg-red-500",
-        flying: "bg-sky-300",
-        ghost: "bg-gray-500",
-        ground: "bg-amber-600",
-        ice: "bg-blue-300",
-        poison: "bg-purple-700",
-        psychic: "bg-pink-300",
-        fighting: "bg-red-300",
-        rock: "bg-amber-700",
-        shadow: "bg-coolGray-600",
-        steel: "bg-indigo-800",
-        unknown: "bg-emerald-950",
-      };
-    },
-  },
+const route = useRoute();
+const router = useRouter();
+const pokemon = ref(null);
+
+const fetchPokemon = async () => {
+  try {
+    const res = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${route.params.name}`
+    );
+    pokemon.value = await res.json();
+  } catch (error) {
+    console.error("Error fetching Pokémon data:", error);
+    pokemon.value = null;
+  }
+};
+
+onMounted(() => {
+  fetchPokemon();
+});
+
+const goBack = () => {
+  router.push("/");
+};
+
+const typeColors = {
+  water: "bg-blue-500",
+  grass: "bg-green-500",
+  normal: "bg-orange-950",
+  bug: "bg-lime-300",
+  dark: "bg-gray-800",
+  dragon: "bg-emerald-800",
+  electric: "bg-yellow-400",
+  fairy: "bg-pink-500",
+  fire: "bg-red-500",
+  flying: "bg-sky-300",
+  ghost: "bg-gray-500",
+  ground: "bg-amber-600",
+  ice: "bg-blue-300",
+  poison: "bg-purple-700",
+  psychic: "bg-pink-300",
+  fighting: "bg-red-300",
+  rock: "bg-amber-700",
+  shadow: "bg-coolGray-600",
+  steel: "bg-indigo-800",
+  unknown: "bg-emerald-950",
 };
 </script>
+
+<style scoped>
+html {
+  background-color: #04b3ee;
+}
+</style>

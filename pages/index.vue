@@ -25,7 +25,7 @@
             :pokemon="pokemon"
           />
         </div>
-        <div v-else class="text-center text-xl pt-20 text-gray-600">
+        <div v-if="filteredPokemon.length === 0" class="text-center text-xl pt-20 text-gray-600">
           Nenhum Pokémon encontrado!
           <p class="text-sm pt-2">Desenvolvido por <a href="https://github.com/andre26z/pokemon---This-is-a-challenge-by-Coodesh"> André Santos</a></p>
         </div>
