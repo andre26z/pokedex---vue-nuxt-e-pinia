@@ -153,4 +153,4 @@ O componente usa a Composition API do Vue.js para gerenciar o estado e os efeito
 
 ### Desafios encontrados ao criar a página pokemon/[name].vue
 
-- As habilidades que existem na API em nada se assemelham as encontradas no figma, conforme imagem do figma a habilidade do pokemon exemplo possui mais de 5 carácteres, porém, na API é apenas uma palavra, foi mantida a formatação conforme figma
+- As habilidades que existem na API em nada se assemelham as encontradas no figma, conforme imagem do figma a habilidade do pokemon exemplo possui mais de 5 carácteres, porém, na API é apenas uma palavra, foi mantida a formatação conforme figma.
