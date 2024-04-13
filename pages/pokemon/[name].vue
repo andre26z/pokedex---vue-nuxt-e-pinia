@@ -30,14 +30,14 @@
 
     <div class="bg-white shadow-lg rounded-lg overflow-hidden mt-4">
       <div class="p-4">
-        <h1 class="text-lg justify-center text-center font-bold">
+        <h1 class="text-lg justify-center text-center font-bold ">
           Habilidades:
         </h1>
         <ul>
           <li
             v-for="ability in pokemon.abilities"
             :key="ability.ability.name"
-            class="px-3 py-4 text-lg font-normal text-gray-900 mr-2"
+            class="px-3 py-4 text-lg font-normal text-gray-900 mr-2 capitalize"
           >
             {{ ability.ability.name }}
           </li>
