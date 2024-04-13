@@ -76,8 +76,9 @@ bun run preview
 
 # Pokedex by Andre Santos - Challenge by Codesh
 
-Este projeto é um desafio codesh feito com Nuxt3, Vue.js3 e Tailwind, não há adição de outras bibliotecas prezando pela otimização.
+Este projeto é um desafio codesh feito com Nuxt3, Vue.js3, Tailwind, Composition API e Pinia, não há adição de outras bibliotecas prezando pela otimização.
 Fontes e Cores encontrados no figma.
+
 
 ## Minha Página Inicial Index.vue
 
