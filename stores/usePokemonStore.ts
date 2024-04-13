@@ -1,9 +1,27 @@
+interface Pokemon {
+  name: string;
+  url: string;
+  image: string;
+  typeName: string[];
+  gameIndex: number | undefined;
+  pokemonIndex: number | undefined;
+}
+
+interface PokemonDetails {
+  [key: string]: {
+    name: string;
+    image: string;
+    typeName: string[];
+    gameIndex: number | undefined;
+  };
+}
+
 export const usePokemonStore = defineStore("pokemon", {
   state: () => ({
-    pokemonList: [],
-    pokemonDetails: {},
+    pokemonList: [] as Pokemon[],
+    pokemonDetails: {} as PokemonDetails,
     isLoading: false,
-    totalCount: null,
+    totalCount: null as number | null,
     pageSize: 24,
   }),
   actions: {
@@ -19,14 +37,14 @@ export const usePokemonStore = defineStore("pokemon", {
         );
         const data = await response.json();
         this.totalCount = data.count;
-        const detailedPokemonList = data.results.map(async (pokemon) => {
+        const detailedPokemonList = data.results.map(async (pokemon: any) => {
           const detailsResponse = await fetch(pokemon.url);
           const detailsData = await detailsResponse.json();
           return {
             name: detailsData.name,
             url: pokemon.url,
             image: detailsData.sprites.front_default,
-            typeName: detailsData.types.map((t) => t.type.name), // Store as array of names
+            typeName: detailsData.types.map((t: any) => t.type.name), 
             gameIndex: detailsData.game_indices[0]?.game_index,
           };
         });
@@ -42,7 +60,7 @@ export const usePokemonStore = defineStore("pokemon", {
       }
     },
 
-    async fetchPokemonDetails(url) {
+    async fetchPokemonDetails(url: any) {
       if (!this.pokemonDetails[url]) {
         // Fetch details only if not already loaded
         try {
@@ -51,7 +69,7 @@ export const usePokemonStore = defineStore("pokemon", {
           this.pokemonDetails[url] = {
             name: details.name,
             image: details.sprites.front_default,
-            typeName: details.types.map((t) => t.type.name),
+            typeName: details.types.map((t: any) => t.type.name),
             gameIndex: details.game_indices[0]?.game_index,
           };
         } catch (error) {

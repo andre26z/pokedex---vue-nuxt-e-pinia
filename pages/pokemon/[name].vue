@@ -54,7 +54,7 @@
       </button>
     </div>
   </div>
-  <div v-else class="text-center flex justify-center mt-30">
+  <div v-else class="flex justify-center items-center h-screen">
     <p>Carregando...</p>
   </div>
 </template>
