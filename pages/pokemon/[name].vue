@@ -46,7 +46,9 @@
     </div>
 
     <div class="text-center mt-14">
+      <LoadSpinner v-if="isNavigating" />
       <button
+        v-else
         @click="goBack"
         class="bg-white-500 text-xl hover:text-cyan-800 text-cyan-600 font-semibold py-2 px-4 rounded"
       >
@@ -63,10 +65,12 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Header from "@/components/Header.vue";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 const route = useRoute();
 const router = useRouter();
 const pokemon = ref(null);
+const isNavigating = ref(false);
 
 const fetchPokemon = async () => {
   try {
@@ -85,7 +89,14 @@ onMounted(() => {
 });
 
 const goBack = () => {
-  router.push("/");
+  isNavigating.value = true;
+  setTimeout(() => {
+    router.push("/").finally(() => {
+      setTimeout(() => { // Delay setting isNavigating to false
+        isNavigating.value = false;
+      }, 500); // Keeps spinner visible for an extra second after navigation
+    });
+  }, 500); // Delay starting navigation
 };
 
 const typeColors = {

@@ -15,11 +15,11 @@
           class="absolute right-3 top-1/3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
         ></button>
       </div>
-
+      <LoadSpinner v-if="isLoading" />
       <div class="space-y-4">
         <h1 class="text-2xl font-bold">Pokémons</h1>
         <div
-          v-if="filteredPokemon.length > 0"
+          v-if="filteredPokemon.length > 0 && !isLoading"
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
         >
           <PokemonCard
@@ -29,7 +29,7 @@
           />
         </div>
         <div
-          v-if="filteredPokemon.length === 0"
+          v-if="filteredPokemon.length === 0 && !isLoading"
           class="text-center text-xl pt-20 text-gray-600"
         >
           Nenhum Pokémon encontrado!
@@ -51,9 +51,11 @@
 import { ref, computed, onMounted } from "vue";
 import { usePokemonStore } from "~/stores/usePokemonStore";
 import Header from "@/components/Header.vue";
+import LoadSpinner from "@/components/LoadSpinner.vue"; 
 
 const pokemonStore = usePokemonStore();
 const searchQuery = ref("");
+const isLoading = ref(false);
 
 const filteredPokemon = computed(() => {
   const lowerSearchQuery = searchQuery.value.toLowerCase();
@@ -71,9 +73,10 @@ const clearSearch = () => {
 };
 
 onMounted(() => {
-  if (pokemonStore.pokemonList.length === 0) {
-    pokemonStore.fetchPokemon();
-  }
+  isLoading.value = true;
+  pokemonStore.fetchPokemon().finally(() => {
+    isLoading.value = false;
+  });
 });
 </script>
 
