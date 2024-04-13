@@ -12,8 +12,10 @@
         <button
           v-if="searchQuery"
           @click="clearSearch"
-          class="absolute right-3 top-1/3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-        ></button>
+          class="absolute right-2 top-1/4 transform -translate-y-1/4 pr-3 text-gray-500 hover:text-gray-700"
+        >
+          X
+        </button>
       </div>
       <LoadSpinner v-if="isLoading" />
       <div class="space-y-4">
@@ -51,7 +53,7 @@
 import { ref, computed, onMounted } from "vue";
 import { usePokemonStore } from "~/stores/usePokemonStore";
 import Header from "@/components/Header.vue";
-import LoadSpinner from "@/components/LoadSpinner.vue"; 
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 const pokemonStore = usePokemonStore();
 const searchQuery = ref("");
