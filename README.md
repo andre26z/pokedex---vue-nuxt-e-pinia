@@ -3,6 +3,8 @@
 
 git clone https://github.com/andre26z/pokemon---This-is-a-challenge-by-Coodesh.git
 
+PROJETO EM PRODUÇÃO <a href="https://pokemon-this-is-a-challenge-by-coodesh.vercel.app"> CLIQUE AQUI </a>
+
 pelo terminal entre na pasta que clonou o projeto após isso siga os passos abaixo:
 
 ```bash
