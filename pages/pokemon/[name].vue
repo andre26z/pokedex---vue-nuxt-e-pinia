@@ -37,19 +37,18 @@
           <li
             v-for="ability in pokemon.abilities"
             :key="ability.ability.name"
-            class="px-3 py-4 text-sm font-semibold text-gray-700 mr-2"
+            class="px-3 py-4 text-lg font-normal text-gray-900 mr-2"
           >
             {{ ability.ability.name }}
           </li>
         </ul>
       </div>
     </div>
-
-    <!-- Back Button -->
-    <div class="text-center mt-6">
+    
+    <div class="text-center mt-14">
       <button
         @click="goBack"
-        class="bg-white-500 hover:text-cyan-800 text-cyan-600 font-bold py-2 px-4 rounded"
+        class="bg-white-500 text-xl hover:text-cyan-800 text-cyan-600 font-semibold py-2 px-4 rounded"
       >
         Voltar
       </button>
