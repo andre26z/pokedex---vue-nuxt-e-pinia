@@ -63,9 +63,10 @@ const filteredPokemon = computed(() => {
   const lowerSearchQuery = searchQuery.value.toLowerCase();
   return pokemonStore.pokemonList.filter((pokemon) => {
     const nameMatches = pokemon.name.toLowerCase().includes(lowerSearchQuery);
-    const gameIndexMatches =
-      pokemon.gameIndex !== undefined &&
-      pokemon.gameIndex.toString().includes(lowerSearchQuery);
+    // Check if detailed information is available and matches the gameIndex
+    const details = pokemonStore.pokemonDetails[pokemon.url];
+    const gameIndexMatches = details && details.gameIndex !== undefined && 
+                             details.gameIndex.toString().includes(lowerSearchQuery);
     return nameMatches || gameIndexMatches;
   });
 });
