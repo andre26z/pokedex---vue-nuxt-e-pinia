@@ -92,11 +92,11 @@ const goBack = () => {
   isNavigating.value = true;
   setTimeout(() => {
     router.push("/").finally(() => {
-      setTimeout(() => { // Delay setting isNavigating to false
+      setTimeout(() => { 
         isNavigating.value = false;
-      }, 500); // Keeps spinner visible for an extra second after navigation
+      }, 500); 
     });
-  }, 500); // Delay starting navigation
+  }, 500); 
 };
 
 const typeColors = {

@@ -27,19 +27,21 @@ export const usePokemonStore = defineStore("pokemon", {
   actions: {
     async fetchPokemon(batchSize = 24) {
       this.isLoading = true;
+      const limit = Math.min(batchSize, 300 - this.pokemonList.length);
 
       try {
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=10000&offset=${this.pokemonList.length}`
+          `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${this.pokemonList.length}`
         );
         const data = await response.json();
         this.totalCount = data.count;
 
         const detailedPokemonList = data.results.map(async (pokemon) => {
+         
           return {
             name: pokemon.name,
             url: pokemon.url,
-            image: "",
+            image: "", 
             typeName: [],
             gameIndex: undefined,
           };
@@ -58,7 +60,7 @@ export const usePokemonStore = defineStore("pokemon", {
 
     async fetchPokemonDetails(url: any) {
       if (!this.pokemonDetails[url]) {
-       try {
+        try {
           const response = await fetch(url);
           const details = await response.json();
           this.pokemonDetails[url] = {

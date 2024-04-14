@@ -39,7 +39,7 @@ import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import { usePokemonStore } from "~/stores/usePokemonStore";
 import { defineProps } from "vue";
-import LoadSpinner from "@/components/LoadSpinner.vue"; // Ensure path is correct
+import LoadSpinner from "@/components/LoadSpinner.vue"; 
 
 const props = defineProps({
   pokemon: Object,
@@ -49,12 +49,11 @@ const router = useRouter();
 const isLoading = ref(false);
 const pokemonStore = usePokemonStore();
 
-// Computed property for reactive updates
 const pokemonDetails = computed(() => {
   return pokemonStore.pokemonDetails[props.pokemon.url] || props.pokemon;
 });
 
-// Watch for changes in pokemon details
+
 watch(
   () => pokemonStore.pokemonDetails[props.pokemon.url],
   (newDetails) => {
@@ -101,9 +100,16 @@ function handleClick() {
     isLoading.value = false;
   });
 }
-
 async function fetchPokemonDetails(url) {
   isLoading.value = true;
-  await pokemonStore.fetchPokemonDetails(url);
+  await pokemonStore.fetchPokemonDetails(url).finally(() => {
+    isLoading.value = false;
+  });
 }
+
+onMounted(() => {
+  if (!pokemonStore.pokemonDetails[props.pokemon.url]) {
+    fetchPokemonDetails(props.pokemon.url);
+  }
+});
 </script>
