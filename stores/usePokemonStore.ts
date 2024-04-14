@@ -25,27 +25,23 @@ export const usePokemonStore = defineStore("pokemon", {
     pageSize: 24,
   }),
   actions: {
-    async fetchPokemon() {
-      if (this.isLoading || this.pokemonList.length >= 300) {
-        return;
-      }
-
+    async fetchPokemon(batchSize = 24) {
       this.isLoading = true;
+
       try {
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=300&offset=${this.pokemonList.length}`
+          `https://pokeapi.co/api/v2/pokemon?limit=10000&offset=${this.pokemonList.length}`
         );
         const data = await response.json();
         this.totalCount = data.count;
-        const detailedPokemonList = data.results.map(async (pokemon: any) => {
-          const detailsResponse = await fetch(pokemon.url);
-          const detailsData = await detailsResponse.json();
+
+        const detailedPokemonList = data.results.map(async (pokemon) => {
           return {
-            name: detailsData.name,
+            name: pokemon.name,
             url: pokemon.url,
-            image: detailsData.sprites.front_default,
-            typeName: detailsData.types.map((t: any) => t.type.name), 
-            gameIndex: detailsData.game_indices[0]?.game_index,
+            image: "",
+            typeName: [],
+            gameIndex: undefined,
           };
         });
 
@@ -62,8 +58,7 @@ export const usePokemonStore = defineStore("pokemon", {
 
     async fetchPokemonDetails(url: any) {
       if (!this.pokemonDetails[url]) {
-        // Fetch details only if not already loaded
-        try {
+       try {
           const response = await fetch(url);
           const details = await response.json();
           this.pokemonDetails[url] = {

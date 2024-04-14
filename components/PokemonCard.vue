@@ -1,4 +1,3 @@
-<!-- PokemonCard.vue -->
 <template>
   <div
     class="max-w-sm rounded overflow-hidden shadow-lg bg-white transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-2xl cursor-pointer relative"
@@ -8,19 +7,23 @@
     <div v-else>
       <div class="px-6 py-4">
         <img
-          :src="pokemon.image"
+          :src="pokemonDetails.image"
           alt="Pokemon"
           class="mx-auto h-auto max-w-full"
           loading="lazy"
         />
         <div class="font-bold text-xl mb-6 capitalize text-center">
-          {{ pokemon.name }}
+          {{ pokemonDetails.name }}
         </div>
         <p class="font-bold text-sm mb-20 text-center">
-          Cód: {{ pokemon.gameIndex }}
+          Cód: {{ pokemonDetails.gameIndex }}
         </p>
         <div class="flex justify-center items-center space-x-2">
-          <span v-for="type in pokemon.typeName" :key="type" class="mb-2">
+          <span
+            v-for="type in pokemonDetails.typeName"
+            :key="type"
+            class="mb-2"
+          >
             <span :class="typeClass(type)">
               {{ type }}
             </span>
@@ -32,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import { usePokemonStore } from "~/stores/usePokemonStore";
 import { defineProps } from "vue";
@@ -45,6 +48,24 @@ const props = defineProps({
 const router = useRouter();
 const isLoading = ref(false);
 const pokemonStore = usePokemonStore();
+
+// Computed property for reactive updates
+const pokemonDetails = computed(() => {
+  return pokemonStore.pokemonDetails[props.pokemon.url] || props.pokemon;
+});
+
+// Watch for changes in pokemon details
+watch(
+  () => pokemonStore.pokemonDetails[props.pokemon.url],
+  (newDetails) => {
+    if (newDetails && Object.keys(newDetails).length > 0) {
+      isLoading.value = false;
+    } else {
+      fetchPokemonDetails(props.pokemon.url);
+    }
+  },
+  { immediate: true }
+);
 
 const typeClass = (type) => {
   const typeColors = {
@@ -81,16 +102,8 @@ function handleClick() {
   });
 }
 
-onMounted(() => {
-  if (!pokemonStore.pokemonDetails[props.pokemon.url]) {
-    isLoading.value = true;
-    fetchPokemonDetails(props.pokemon.url).finally(
-      () => (isLoading.value = false)
-    );
-  }
-});
-
 async function fetchPokemonDetails(url) {
+  isLoading.value = true;
   await pokemonStore.fetchPokemonDetails(url);
 }
 </script>

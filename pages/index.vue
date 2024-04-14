@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { usePokemonStore } from "~/stores/usePokemonStore";
 import Header from "@/components/Header.vue";
 import LoadSpinner from "@/components/LoadSpinner.vue";
@@ -74,11 +74,27 @@ const clearSearch = () => {
   searchQuery.value = "";
 };
 
+const loadMorePokemon = () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    pokemonStore.fetchPokemon();
+  }
+};
+
 onMounted(() => {
   isLoading.value = true;
   pokemonStore.fetchPokemon().finally(() => {
     isLoading.value = false;
   });
+
+  if (process.client) {
+    window.addEventListener("scroll", loadMorePokemon);
+  }
+});
+
+onUnmounted(() => {
+  if (process.client) {
+    window.removeEventListener("scroll", loadMorePokemon);
+  }
 });
 </script>
 
