@@ -39,7 +39,7 @@ import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import { usePokemonStore } from "~/stores/usePokemonStore";
 import { defineProps } from "vue";
-import LoadSpinner from "@/components/LoadSpinner.vue"; 
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 const props = defineProps({
   pokemon: Object,
@@ -52,7 +52,6 @@ const pokemonStore = usePokemonStore();
 const pokemonDetails = computed(() => {
   return pokemonStore.pokemonDetails[props.pokemon.url] || props.pokemon;
 });
-
 
 watch(
   () => pokemonStore.pokemonDetails[props.pokemon.url],
@@ -102,6 +101,7 @@ function handleClick() {
 }
 async function fetchPokemonDetails(url) {
   isLoading.value = true;
+
   await pokemonStore.fetchPokemonDetails(url).finally(() => {
     isLoading.value = false;
   });
